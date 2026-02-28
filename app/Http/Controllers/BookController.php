@@ -9,10 +9,25 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('category')->get();
-        return view('books.index', compact('books'));
+        $query = Book::with('category');
+        $categories = Category::all();
+        // search
+        if ($request->search) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+        // filter kategori
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        $books = $query->get();
+        $totalBooks = Book::count();
+        $totalPerCategory = Book::selectRaw('category_id, COUNT(*) as total')
+                        ->groupBy('category_id')
+                        ->pluck('total', 'category_id');
+        // KIRIM categories ke view
+        return view('books.index', compact('books','categories', 'totalBooks', 'totalPerCategory'));
     }
 
     public function create()

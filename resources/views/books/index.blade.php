@@ -7,9 +7,52 @@
     <a href="{{ route('books.create') }}" class="btn btn-primary">+ Tambah</a>
 </div>
 
+{{-- FORM SEARCH --}}
+<form method="GET" action="{{ route('books.index') }}" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" name="search" 
+                   class="form-control"
+                   placeholder="Cari judul..."
+                   value="{{ request('search') }}">
+        </div>
+
+        <div class="col-md-3">
+            <select name="category_id" class="form-select">
+                <option value="">-- Semua Kategori --</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}"
+                        {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->nama_kategori }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <button class="btn btn-primary">Cari</button>
+        </div>
+
+        <div class="mb-3">
+            <strong>Total Buku per Kategori:</strong>
+            <ul>
+                @foreach($categories as $category)
+                    <li>
+                        {{ $category->nama_kategori }} :
+                        {{ $totalPerCategory[$category->id] ?? 0 }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</form>
+
 @if(session('success'))
 <div class="alert alert-success">
     {{ session('success') }}
+</div>
+<div class="alert alert-info">
+    Total Buku: <strong>{{ $totalBooks }}</strong>
 </div>
 @endif
 
