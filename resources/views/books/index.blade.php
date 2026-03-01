@@ -10,15 +10,19 @@
 {{-- FORM SEARCH --}}
 <form method="GET" action="{{ route('books.index') }}" class="mb-3">
     <div class="row">
-        <div class="col-md-3">
+        {{-- Search --}}
+        <div class="col-md-4">
             <input type="text" name="search" 
-                   class="form-control"
+                   id="searchInput"
+                   class="form-control" 
                    placeholder="Cari judul..."
                    value="{{ request('search') }}">
         </div>
-
-        <div class="col-md-3">
-            <select name="category_id" class="form-select">
+        
+        <div class="col-md-4">
+            <select name="category_id" 
+                    class="form-select"
+                    onchange="clearSearchAndSubmit()">
                 <option value="">-- Semua Kategori --</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}"
@@ -29,9 +33,20 @@
             </select>
         </div>
 
-        <div class="col-md-3">
-            <button class="btn btn-primary">Cari</button>
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">
+                Cari / Filter
+            </button>
         </div>
+    </div>
+</form>
+
+<script>
+function clearSearchAndSubmit() {
+    document.getElementById('searchInput').value = '';
+    document.forms[0].submit();
+}
+</script>
 
         <div class="mb-3">
             <strong>Total Buku per Kategori:</strong>

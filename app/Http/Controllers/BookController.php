@@ -18,8 +18,8 @@ class BookController extends Controller
             $query->where('judul', 'like', '%' . $request->search . '%');
         }
         // filter kategori
-        if ($request->category_id) {
-            $query->where('category_id', $request->category_id);
+        if (!empty($request->category_id)) {
+        $query->where('category_id', $request->category_id);
         }
         $books = $query->get();
         $totalBooks = Book::count();
