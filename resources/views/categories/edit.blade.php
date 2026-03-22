@@ -18,6 +18,21 @@
                class="form-control">
     </div>
 
+    <div class="mb-3">
+        <label>Gambar</label>
+        <input type="file" name="gambar" class="form-control">
+    </div>
+
+    {{-- TAMPILKAN GAMBAR LAMA --}}
+    @if($book->gambar)
+        <div class="mb-3">
+            <label>Gambar Saat Ini:</label><br>
+            <img src="{{ asset('images/'.$book->gambar) }}" 
+                width="120"
+                class="rounded shadow">
+        </div>
+    @endif
+
     <button class="btn btn-primary">Update</button>
     <a href="{{ route('categories.index') }}" class="btn btn-secondary">Kembali</a>
 </form>

@@ -43,13 +43,24 @@ class BookController extends Controller
             'judul' => 'required',
             'penulis' => 'required',
             'tahun_terbit' => 'required|numeric',
-            'stok' => 'required|numeric'
+            'stok' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png'
         ]);
 
-        Book::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
+            $file = $request->file('gambar');
+            $namaFile = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images'), $namaFile);
+
+            $data['gambar'] = $namaFile;
+        }
+
+        Book::create($data);
 
         return redirect()->route('books.index')
-                ->with('success','Data berhasil ditambahkan');
+            ->with('success','Data berhasil ditambahkan');
     }
 
     public function edit(Book $book)
@@ -68,10 +79,22 @@ class BookController extends Controller
             'stok' => 'required|numeric'
         ]);
 
-        $book->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
+            $file = $request->file('gambar');
+            $namaFile = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images'), $namaFile);
+
+            $data['gambar'] = $namaFile;
+        } else {
+            $data['gambar'] = $book->gambar;
+        }
+
+        $book->update($data);
 
         return redirect()->route('books.index')
-                ->with('success','Data berhasil diupdate');
+            ->with('success','Data berhasil diupdate');
     }
 
     public function destroy(Book $book)
