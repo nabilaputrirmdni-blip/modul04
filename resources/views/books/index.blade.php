@@ -82,6 +82,7 @@ function clearSearchAndSubmit() {
                     <th>Penulis</th>
                     <th>Tahun</th>
                     <th>Stok</th>
+                    <th>Gambar</th>
                     <th width="150">Aksi</th>
                 </tr>
             </thead>
@@ -94,6 +95,11 @@ function clearSearchAndSubmit() {
                     <td>{{ $book->tahun_terbit }}</td>
                     <td>
                         <span class="badge bg-info">{{ $book->stok }}</span>
+                    </td>
+                    <td>
+                        @if($book->gambar)
+                            <img src="{{ asset('images/'.$book->gambar) }}" width="100">
+                        @endif
                     </td>
                     <td>
                         <a href="{{ route('books.edit',$book->id) }}" 

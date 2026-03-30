@@ -64,10 +64,20 @@
     <div class="container">
         <a class="navbar-brand" href="#">CRUD Books Laravel</a>
 
-        <div class="ms-auto">
-            <a href="/" class="text-white me-3">Home</a>
-            <a href="{{ route('books.index') }}" class="text-white me-3">Books</a>
-            <a href="{{ route('categories.index') }}" class="text-white">Categories</a>
+        <div class="ms-auto d-flex align-items-center">
+
+            <a href="{{ route('home') }}" class="text-white me-3 text-decoration-none">Home</a>
+            <a href="{{ route('books.index') }}" class="text-white me-3 text-decoration-none">Books</a>
+            <a href="{{ route('categories.index') }}" class="text-white me-3 text-decoration-none">Categories</a>
+
+            <!-- Logout -->
+            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                @csrf
+                <button type="submit" class="btn btn-link text-white p-0 text-decoration-none">
+                    Logout
+                </button>
+            </form>
+
         </div>
     </div>
 </nav>
